@@ -1,21 +1,19 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# Vagrant file for a cfengine testbed.
+# JMoore 
+# Purpose: This box acts as CF Enterprise hub.  Gets CF policies from central
+# and branches "cftestbed-" to be merged.
+
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
+  # I use Ubuntu.
   config.vm.box = "precise64"
-
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
-
-  # If true, then any SSH connections made will enable agent forwarding.
-  # Default value: false
-  # config.ssh.forward_agent = true
 
   # Central repository which we will branch for this dev environment
   config.vm.synced_folder "~/infra2/cfengine", "/cfengine-repos" 
@@ -39,6 +37,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # information on available options.
 
   # Shell Configuration
+
   # Install latest software and git
   config.vm.provision "shell",
     inline: "apt-get update ; DEBIAN_FRONTEND=noninteractive apt-get -y dist-upgrade ; apt-get -y install git ; apt-get clean"
