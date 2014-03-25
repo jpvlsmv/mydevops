@@ -53,6 +53,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Activate our policies
   config.vm.provision "shell",
-    inline: "cd /var/cfengine ; mv masterfiles masterfiles_distrib ; ln -s /cfengine/inputs masterfiles ; service cfengine3 restart" 
+    inline: "cd /var/cfengine ; mv masterfiles masterfiles_distrib ; ln -s /cfengine/inputs masterfiles ; service cfengine3 restart ; cf-agent -KIf update.cf ; cf-agent -KI" 
 
 end
