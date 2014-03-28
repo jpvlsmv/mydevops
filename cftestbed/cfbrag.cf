@@ -1,0 +1,46 @@
+# cfbrag.cf - Notify users of the use of cfengine for this host
+
+bundle agent cfbrag {
+	vars:
+	am_policy_hub::
+		"mainpolicytime" string => execresult("/bin/sh -c \"cd $(sys.workdir)/masterfiles ; /usr/bin/git log -1 --format=%cd\"", "noshell");
+		"envpolicytime" string => execresult("/bin/sh -c \"cd $(sys.workdir)/masterfiles/environment_$(environments.active) ; /usr/bin/git log -1 --format=%cd\"", "noshell");
+
+	files:
+	am_policy_hub::
+		"$(sys.workdir)/masterfiles/templates/motd.cft"
+			comment => "Modify template with latest policy time",
+			create => "true",
+			edit_defaults => empty,
+			edit_line => cfbrag_motd_master;
+
+	any::
+		"/etc/update-motd.d/99-cfbrag"
+			comment => "Brag about cfengine in /etc/motd",
+			create => "true",
+			perms => mog("755", "root", "root"),
+			edit_defaults => empty,
+			edit_line => cfbrag_motd_local;
+reports:
+		"echo \"CFengine environment policy $(cfbrag.envpolicytime)\"";
+}
+
+bundle edit_line cfbrag_motd_master {
+	# Starting from an empty file (edit_defaults => empty)
+	insert_lines:
+		"#!/bin/sh";
+		"# /etc/update-motd.d/99-footer2";
+		"# Brag about cfengine on this system";
+		"echo \"CFengine main policy $(cfbrag.mainpolicytime)\"";
+		"echo \"CFengine env policy $(cfbrag.envpolicytime)\"";
+}
+
+bundle edit_line cfbrag_motd_local {
+	# Starting from an empty file (edit_defaults => empty)
+	insert_lines:
+	"$(sys.workdir)/masterfiles/templates/motd.cft"
+		insert_type => "file";
+
+	"echo \"Managed by CFengine3: last run $(sys.date)\"" 
+		expand_scalars => "true";
+}

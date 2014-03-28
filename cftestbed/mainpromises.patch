@@ -1,0 +1,59 @@
+diff --git a/promises.cf b/promises.cf
+index f6ef220..a735e40 100644
+--- a/promises.cf
++++ b/promises.cf
+@@ -21,6 +21,10 @@ body common control
+                     "service_catalogue",
+                     "example_use_goals",         # See cfe_internal/example_use_goals.cf
+ 
++		    # Local environment Execution
++		    "environments",
++		    "env_main",
++
+                    };
+ 
+          inputs => {
+@@ -58,6 +62,10 @@ body common control
+                   # List of services here
+                     "services/file_change.cf",
+ 
++		    # Local environment Execution
++		    "environment_$(environments.active)/env_promises.cf",
++		    @(environment_g.inputs),
++
+                    };
+ 
+    version => "Promises.cf 3.5.3";
+@@ -129,3 +137,32 @@ bundle agent service_catalogue
+                 usebundle => change_management;
+ 
+ }
++
++bundle common environments
++{
++classes:
++	"environment_test" or => {
++		# List of machines to get pre-production rules
++		"blogpreprod",
++		"webdev",
++	}, handle=>"test_host_sel";
++
++	"environment_dev" or => { classmatch("cftest") };
++
++vars:
++	any:: 
++		# Every machine is production unless overridden.
++		"active" string => "prod", 
++		         policy => "overridable", 
++			 handle=>"prod_env_active";
++
++	environment_test:: 
++		"active" string => "test", 
++		         policy => "overridable", 
++		         handle => "test_env_active";
++	environment_dev:: 
++		"active" string => "dev", 
++		         policy => "overridable", 
++		         handle => "dev_env_active";
++}
++

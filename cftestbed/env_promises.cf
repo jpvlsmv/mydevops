@@ -1,0 +1,19 @@
+# env_promises.cf
+bundle common environment_g {
+        vars:
+		"modules" slist => {
+			# List of modules- foo.cf contains a bundle called foo
+			"cfbrag"
+		};
+                "inputs" slist => 
+			maplist("environment_$(environments.active)/$(this).cf", "modules");
+#		{ 
+#			"environment_$(environments.active)/$(modules).cf"
+#	        };
+}
+
+bundle agent env_main
+{
+        methods:
+		"$(environment_g.modules)" usebundle => "$(environment_g.modules)";
+}
