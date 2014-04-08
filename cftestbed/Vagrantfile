@@ -14,7 +14,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
   # I use Ubuntu.
-  config.vm.box = "precise64"
+  config.vm.box = "hashicorp/precise64"
   config.vm.hostname = "cftesthub"
 
   # Central repository which we will branch for this dev environment
