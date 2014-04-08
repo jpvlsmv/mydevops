@@ -5,6 +5,8 @@
 #  . git works
 #  . cfengine-nova-hub-3.5.3-1_amd64.deb has been downloaded and is in this dir
 
+all: cleanrepos initpolicy mergebranch addenv addenvmerge
+
 # First, we build some empty repositories
 cleanrepos:
 	mkdir cfengine-repos 
@@ -26,8 +28,11 @@ initpolicy:
 	vagrant destroy
 
 mergebranch:
-	( cd cfengine-repos/inputs ; git checkout master; git merge --no-ff $BRANCH )
-	( cd cfengine-repos/environments ; git checkout master; git merge --no-ff $BRANCH )
+	( cd cfengine-repos/inputs ; git checkout master; git merge --no-ff `git branch --no-merged | grep cftestbed` )
+	( cd cfengine-repos/inputs ; git checkout prod; git merge --no-ff `git branch --no-merged | grep cftestbed` )
+	( cd cfengine-repos/environments ; git checkout master; git merge --no-ff --no-merged | grep cftestbed` )
+	( cd cfengine-repos/environments ; git checkout test; git merge --no-ff --no-merged | grep cftestbed` )
+	( cd cfengine-repos/environments ; git checkout prod; git merge --no-ff --no-merged | grep cftestbed` )
 
 # At this point, we have the distributed CFEngine policies checked in to our
 # new repository.  We can work to make our customizations
@@ -43,7 +48,7 @@ addenv:
 	git add env_promises.cf cfbrag.cf
 	git commit -m 'Add Environment hooks'
 
-addenvcommit:
+addenvmerge:
 	( cd cfengine-repos/inputs ; git checkout master; git merge --no-ff addenv )
 	( cd cfengine-repos/inputs ; git checkout prod; git merge --no-ff addenv )
 	( cd cfengine-repos/environments ; git checkout master; git merge --no-ff addenv )
