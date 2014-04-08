@@ -2,6 +2,6 @@ Vagrant environment for testing and developing cfengine policies.
 
 Download cfengine-nova-hub*.deb from cfengine.com (watch their licensing) and mkdir cfengine.
 
-Modify the /cfengine-repos shared location to point to your centralized cfengine policy repo.
+The setup is automated via the Makefile now.  Review and understand what the targets are doing (they're in order) or just run "make all" if you're crazy^Wadventurous.
 
-Most of the setup is automated via the Makefile now, but you have to walk through it manually.  Review and understand what the targets are doing (they're in order)
+
