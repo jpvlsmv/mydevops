@@ -57,9 +57,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		cd inputs ;
 		git checkout -b cftestbed-$T ; 
 		git push origin cftestbed-$T ; 
-		git clone -b prod ../../cfengine-repos/environment environment_prod
-		git clone -b test ../../cfengine-repos/environment environment_test
-		git clone ../../cfengine-repos/environment environment_dev
+		git clone -b prod ../../cfengine-repos/environments environment_prod
+		git clone -b test ../../cfengine-repos/environments environment_test
+		git clone ../../cfengine-repos/environments environment_dev
 		cd environment_dev/ ;
 		git checkout -b cftestbed-$T ; 
 		git push origin cftestbed-$T ; 
