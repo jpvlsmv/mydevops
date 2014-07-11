@@ -10,8 +10,9 @@ cat >> /opt/splunk/etc/system/local/server.conf <<EOF
 active_group = Free
 EOF
 
-$SPLUNK install app /vagrant/sideview-utils-lgpl_135.tgz
-$SPLUNK install app /vagrant/sos-splunk-on-splunk_32.tgz
+$SPLUNK install app /vagrant/sw/sideview-utils-lgpl_135.tgz
+$SPLUNK install app /vagrant/sw/sos-splunk-on-splunk_32.tgz
+$SPLUNK install app /vagrant/sw/cef-common-event-format-extraction-utilities-123.tgz
 ln -s /vagrant/gcst_vagrant /opt/splunk/etc/apps/gcst_vagrant
 
 $SPLUNK restart splunkd
