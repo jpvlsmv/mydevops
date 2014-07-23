@@ -1,0 +1,77 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.proxy.http="http://mil-proxy:3128/"
+  config.proxy.https="http://mil-proxy:3128/"
+
+  # Every Vagrant virtual environment requires a box to build off of.
+  config.vm.box = "hashicorp/precise64"
+
+  config.vm.define "sensor1" do |sensor1|
+    # Sensor using snort mysql database output
+    sensor1.vm.hostname = "sensor1"
+    sensor1.vm.network "private_network", ip: "192.168.33.11"
+#    sensor1.vm.provision :shell, inline: '/vagrant/sensor1-setup.sh'
+  end
+
+  config.vm.define "sensor2" do |sensor2|
+    sensor2.vm.hostname = "sensor2"
+    sensor2.vm.network "private_network", ip: "192.168.33.12"
+#    sensor2.vm.provision :shell, inline: '/vagrant/sensor2-setup.sh'
+  end
+
+  config.vm.define "db" do |db|
+    db.vm.hostname = "basedb"
+#    db.vm.provision :shell, inline: '/vagrant/db-setup.sh'
+    db.vm.network "private_network", ip: "192.168.33.10"
+    db.vm.network "forwarded_port", guest: 80, host: 8000
+  end
+
+
+  # Disable automatic box update checking. If you disable this, then
+  # boxes will only be checked for updates when the user runs
+  # `vagrant box outdated`. This is not recommended.
+  # config.vm.box_check_update = false
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "8192"]
+  end
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine. In the example below,
+  # accessing "localhost:8080" will access port 80 on the guest machine.
+#  config.vm.network "forwarded_port", guest: 8000, host: 8000
+
+  # Create a private network, which allows host-only access to the machine
+  # using a specific IP.
+  # config.vm.network "private_network", ip: "192.168.33.10"
+
+  # Create a public network, which generally matched to bridged network.
+  # Bridged networks make the machine appear as another physical device on
+  # your network.
+  # config.vm.network "public_network"
+
+  # If true, then any SSH connections made will enable agent forwarding.
+  # Default value: false
+  # config.ssh.forward_agent = true
+
+  # Share an additional folder to the guest VM. The first argument is
+  # the path on the host to the actual folder. The second argument is
+  # the path on the guest to mount the folder. And the optional third
+  # argument is a set of non-required options.
+  # config.vm.synced_folder "../data", "/vagrant_data"
+
+  config.vm.provision "shell",
+    inline: "apt-get update ; apt-get -y install python-software-properties ; apt-add-repository -y ppa:securityonion/stable"
+
+  config.vm.provision "shell",
+    inline: "/vagrant/$(uname -n)-setup.sh"
+
+#  config.vm.provision "shell",
+#    inline: "apt-get update ; DEBIAN_FRONTEND=noninteractive apt-get -y dist-upgrade ; apt-get -y install git ; apt-get clean"
+  
+end
