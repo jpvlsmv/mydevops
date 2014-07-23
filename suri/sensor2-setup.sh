@@ -6,8 +6,8 @@ export DEBIAN_FRONTEND
 
 apt-get -y install snort barnyard2
 
-service snort start
+#service snort start
 
 # Add some test data
-ping -s 1400 -c 5 192.168.33.1
+#ping -s 1400 -c 5 192.168.33.1
 
