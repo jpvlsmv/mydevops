@@ -10,6 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "hashicorp/precise64"
+  config.vm.box_check_update = false
 
   config.vm.define "sensor1" do |sensor1|
     # Sensor using snort mysql database output

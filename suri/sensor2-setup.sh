@@ -4,10 +4,21 @@
 DEBIAN_FRONTEND=noninteractive
 export DEBIAN_FRONTEND
 
-apt-get -y install snort barnyard2
+apt-get update
+apt-get -y install snort securityonion-barnyard2 oinkmaster
 
-#service snort start
+# Generate /etc/snort/sid-msg.map
+/usr/share/oinkmaster/create-sidmap.pl /etc/snort/rules > /etc/snort/sid-msg.map
+
+# Configure snort
+cp /vagrant/snort.conf /vagrant/snort.debian.conf /etc/snort/
+
+service snort start
+
+# Run barnyard2
+mkdir /var/log/barnyard2
+barnyard2 -c /vagrant/barnyard2.conf -v -f unified2.log -d /var/log/snort -D -i eth1 -h sensor2
 
 # Add some test data
-#ping -s 1400 -c 5 192.168.33.1
+ping -s 1400 -c 5 192.168.33.1
 
