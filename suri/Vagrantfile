@@ -12,33 +12,35 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "hashicorp/precise64"
   config.vm.box_check_update = false
 
+  config.vm.define "db" do |db|
+    # Box for holding the mysql database and BASE instance
+    db.vm.hostname = "basedb"
+    db.vm.network "private_network", ip: "192.168.33.10"
+    db.vm.network "forwarded_port", guest: 80, host: 8000
+  end
+
   config.vm.define "sensor1" do |sensor1|
     # Sensor using snort mysql database output
     sensor1.vm.hostname = "sensor1"
     sensor1.vm.network "private_network", ip: "192.168.33.11"
-#    sensor1.vm.provision :shell, inline: '/vagrant/sensor1-setup.sh'
   end
 
   config.vm.define "sensor2" do |sensor2|
+    # Sensor using snort -> unified2 -> barnyard -> db
     sensor2.vm.hostname = "sensor2"
     sensor2.vm.network "private_network", ip: "192.168.33.12"
   end
 
   config.vm.define "sensor3" do |sensor3|
+    # Sensor using securityonion-suricata -> unified2 -> barnyard -> db
     sensor3.vm.hostname = "sensor3"
     sensor3.vm.network "private_network", ip: "192.168.33.13"
   end
 
   config.vm.define "sensor4" do |sensor4|
+    # Sensor using suricata-2.0.2 -> unified2 -> barnyard -> db
     sensor4.vm.hostname = "sensor4"
     sensor4.vm.network "private_network", ip: "192.168.33.14"
-  end
-
-  config.vm.define "db" do |db|
-    db.vm.hostname = "basedb"
-#    db.vm.provision :shell, inline: '/vagrant/db-setup.sh'
-    db.vm.network "private_network", ip: "192.168.33.10"
-    db.vm.network "forwarded_port", guest: 80, host: 8000
   end
 
 
