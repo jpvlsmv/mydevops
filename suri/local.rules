@@ -1,1 +1,1 @@
-alert icmp $EXTERNAL_NET any -> $HOME_NET any (msg:"ICMP Large ICMP Packet"; dsize:>800; reference:arachnids,246; classtype:bad-unknown; sid:499; rev:4;)
+alert icmp $EXTERNAL_NET any -> $HOME_NET any (msg:"GPL ICMP Large ICMP Packet"; dsize:>800; reference:arachnids,246; classtype:bad-unknown; sid:2100499; rev:5;)
