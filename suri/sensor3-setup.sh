@@ -25,7 +25,7 @@ touch /etc/snort/gen-msg.map
 # Run barnyard2
 ( barnyard2 -c /vagrant/barnyard2.conf -v -f unified2.alert -d /var/log/nsm -i eth1 -h sensor3 2>&1 | tee -a /var/log/barnyard2.out | logger -t barnyard -i --server 192.168.33.9 -P 8514 -u /dev/null ) &
 
-( suricata -c /vagrant/suricata.yaml -i eth1 2>&1 | tee -a /var/log/barnyard2.out | logger -t suricata -i --server 192.168.33.9 -P 8514 -u /dev/null ) &
+( suricata -c /vagrant/suricata.yaml -i eth1 2>&1 | tee -a /var/log/suricata.out | logger -t suricata -i --server 192.168.33.9 -P 8514 -u /dev/null ) &
 
 sleep 5
 
