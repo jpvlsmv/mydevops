@@ -29,6 +29,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     sensor3.vm.network "private_network", ip: "192.168.33.13"
   end
 
+  config.vm.define "sensor4" do |sensor4|
+    sensor4.vm.hostname = "sensor4"
+    sensor4.vm.network "private_network", ip: "192.168.33.14"
+  end
+
   config.vm.define "db" do |db|
     db.vm.hostname = "basedb"
 #    db.vm.provision :shell, inline: '/vagrant/db-setup.sh'
