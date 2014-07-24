@@ -17,7 +17,7 @@ service snort start
 
 # Run barnyard2
 mkdir /var/log/barnyard2
-barnyard2 -c /vagrant/barnyard2.conf -v -f unified2.log -d /var/log/snort -D -i eth1 -h sensor2
+( barnyard2 -c /vagrant/barnyard2.conf -v -f unified2.log -d /var/log/snort -i eth1 -h sensor2 2>&1 | logger -t barnyard -i --server 192.168.33.9 -P 8514 -u /dev/null ) &
 
 # Add some test data
 ping -s 1400 -c 5 192.168.33.1
