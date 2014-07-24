@@ -19,6 +19,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     db.vm.network "forwarded_port", guest: 80, host: 8000
   end
 
+  config.vm.define "splunk" do |splunk|
+    # Box for holding the splunk instance
+    splunk.vm.hostname = "splunk"
+    splunk.vm.network "private_network", ip: "192.168.33.9"
+    splunk.vm.network "forwarded_port", guest: 8000, host: 8008
+  end
+
   config.vm.define "sensor1" do |sensor1|
     # Sensor using snort mysql database output
     sensor1.vm.hostname = "sensor1"
