@@ -5,8 +5,8 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.proxy.http="http://mil-proxy:3128/"
-  config.proxy.https="http://mil-proxy:3128/"
+#  config.proxy.http="http://mil-proxy:3128/"
+#  config.proxy.https="http://mil-proxy:3128/"
 
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "hashicorp/precise64"
