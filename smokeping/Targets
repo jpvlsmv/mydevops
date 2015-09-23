@@ -1,0 +1,84 @@
+*** Targets ***
+
+probe = FPing
+
+menu = Top
+title = Network Latency Grapher
+remark = Welcome to the SmokePing website for our place. \
+         Here you will learn all about the latency of our network.
+
++ Local
+
+menu = Local
+title = Local Network
+#parents = owner:/Test/James location:/
+
+++ LocalMachine
+
+menu = Local Machine
+title = This host
+host = localhost
+#alerts = someloss
+
++ infra
+menu = Network Infrastructure
+title = Network Infrastructure
+++ pool.ntp.orr
+host=pool.ntp.org
+++ DNS-root-A
+host=a.root-servers.net
+++ DNS-root-C
+host=c.root-servers.net
+++ DNS-root-D
+host=d.root-servers.net
+++ DNS-root-E
+host=e.root-servers.net
+++ DNS-root-F
+host=f.root-servers.net
+++ DNS-root-G
+host=g.root-servers.net
+++ DNS-root-I
+host=i.root-servers.net
+++ DNS-root-J
+host=j.root-servers.net
+++ DNS-root-K
+host=k.root-servers.net
+++ DNS-root-L
+host=l.root-servers.net
+++ godaddy-01
+host = mns01.domaincontrol.com
+++ godaddy-02
+host = mns02.domaincontrol.com
+
++ goog
+menu = Google
+title = Path to Google DNS
+++ localrtr
+host = 192.168.1.1
+++ hop1
+host = 10.19.5.1
+++ hop2
+host = 70.109.168.101
+++ hop3
+host = 70.109.168.134
+++ hop4
+host = 208.184.223.237
+++ hop5
+host = 64.125.21.226
+++ hop6
+host = 64.125.29.38
+++ hop8
+host = 72.14.223.26
+++ hop9
+host = 209.85.248.180
+++ hop10
+host = 209.85.252.250
+++ hop11
+host = 72.14.239.93
+++ hop12
+host = 66.249.95.241
+++ hop13
+host = 72.14.234.67
+++ goog
+host = 8.8.4.4
+
