@@ -11,7 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "hashicorp/precise64"
+  config.vm.box = "ubuntu/trusty64"
   config.vm.define "server" do |server|
   end
 
@@ -49,10 +49,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # config.vm.synced_folder "../data", "/vagrant_data"
 
   config.vm.provision "shell",
-    inline: "apt-get update ; DEBIAN_FRONTEND=noninteractive apt-get -y dist-upgrade ; apt-get -y install git ; apt-get clean"
+    inline: "apt-get update ; 
+    	     #DEBIAN_FRONTEND=noninteractive apt-get -y dist-upgrade ; 
+	     apt-get -y install git ; 
+	     apt-get clean"
   
   config.vm.provision "shell",
-    inline: "dpkg -i /vagrant/sw/splunk-6.2.1-245427-linux-2.6-amd64.deb && su - splunk -c 'bin/splunk start --accept-license' && /opt/splunk/bin/splunk enable boot-start -user splunk"
+    inline: "dpkg -i /vagrant/sw/splunk-6.3.0-aa7d4b1ccb80-linux-2.6-amd64.deb && su - splunk -c 'bin/splunk start --accept-license' && /opt/splunk/bin/splunk enable boot-start -user splunk"
 
   config.vm.provision "shell",
     inline: "su - splunk -c /vagrant/splunk-baseconfig.sh"
